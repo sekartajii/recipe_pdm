@@ -3,11 +3,19 @@
 <head>
     <title>🍽️ Rekomendasi Resep Masakan Indonesia</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
     <div class="hero">
-        <h1>🍽️ Rekomendasi Resep Masakan Indonesia</h1>
-        <p>Selamat datang! Pilih bahan-bahan yang kamu punya, dan temukan resep lezat yang bisa kamu masak sekarang juga.</p>
+        <div class="hero-left">
+            <h1>🍽️ It’s not just Food, It’s an Experience.</h1>
+            <p>
+                Pilih bahan-bahan yang kamu punya, dan temukan resep lezat yang bisa kamu masak sekarang juga.
+            </p>
+        </div>
+        <div class="hero-right">
+            <img src="{{ url_for('static', filename='bowl.png') }}" alt="Mangkuk makanan">
+        </div>
     </div>
 
     <div class="container">
@@ -46,7 +54,7 @@
                 {% for row in rekomendasi.itertuples() %}
                     <li>
                         <h3>🥘 {{ row.Title }}</h3>
-                        <strong>🧏‍🍳 Bahan-bahan:</strong>
+                        <strong>🢏‍🍳 Bahan-bahan:</strong>
                         <ul>
                             {% for item in row._2 %}<li>{{ item }}</li>{% endfor %}
                         </ul>

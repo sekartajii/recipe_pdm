@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>🍽️ Rekomendasi Resep Masakan Indonesia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="hero">
+        <h1>🍽️ Rekomendasi Resep Masakan Indonesia</h1>
+        <p>Selamat datang! Pilih bahan-bahan yang kamu punya, dan temukan resep lezat yang bisa kamu masak sekarang juga.</p>
+    </div>
+
+    <div class="container">
+        <form method="POST" action="/hasil">
+            <h3>✅ Pilih bahan-bahan yang kamu punya:</h3>
+            <div class="checkbox-container">
+                {% set list1 = ["bawang putih", "jahe", "kecap manis", "daun jeruk", "kunyit"] %}
+                {% set list2 = ["ayam", "ikan", "telur", "bawang merah", "daun salam"] %}
+                {% set list3 = ["kemiri", "tomat", "lada", "udang", "tahu"] %}
+
+                <div>
+                    {% for b in list1 %}
+                        <label><input type="checkbox" name="bahan" value="{{ b }}"> {{ b }}</label><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    {% for b in list2 %}
+                        <label><input type="checkbox" name="bahan" value="{{ b }}"> {{ b }}</label><br>
+                    {% endfor %}
+                </div>
+                <div>
+                    {% for b in list3 %}
+                        <label><input type="checkbox" name="bahan" value="{{ b }}"> {{ b }}</label><br>
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <button type="submit">🔍 Cari Rekomendasi</button>
+        </form>
+
+        {% if rekomendasi is defined and rekomendasi is not none and not rekomendasi.empty %}
+        <div class="hasil">
+            <h2>🔎 Hasil Rekomendasi Resep</h2>
+            <p><strong>Bahan yang kamu pilih:</strong> {{ input_user | join(', ') }}</p>
+            <ul>
+                {% for row in rekomendasi.itertuples() %}
+                    <li>
+                        <h3>🥘 {{ row.Title }}</h3>
+                        <strong>🧏‍🍳 Bahan-bahan:</strong>
+                        <ul>
+                            {% for item in row._2 %}<li>{{ item }}</li>{% endfor %}
+                        </ul>
+                        <p><strong>👨‍🍳 Langkah-langkah:</strong> {{ row.Steps }}</p>
+                        <p><strong>📈 Skor Jaccard:</strong> {{ "%.2f"|format(row.Jaccard) }} &nbsp;&nbsp; ❤️ {{ row.Loves }} suka</p>
+                    </li>
+                    <hr>
+                {% endfor %}
+            </ul>
+        </div>
+        {% elif input_user %}
+            <p><strong>Tidak ditemukan resep dengan kombinasi bahan tersebut.</strong></p>
+        {% endif %}
+    </div>
+</body>
+</html>

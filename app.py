@@ -71,6 +71,9 @@ def hasil():
     return render_template('index.html', rekomendasi=top5, input_user=selected_ingredients)
 
 # Jalankan di Railway
+# Jalankan di Railway
 if __name__ == '__main__':
+    import os  # ⬅️
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
+

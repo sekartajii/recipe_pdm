@@ -61,14 +61,15 @@ def rekomendasi():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-# Proses hasil dari form
 @app.route('/hasil', methods=['POST'])
 def hasil():
     selected_ingredients = request.form.getlist('bahan')
     hasil = proses_model_rekomendasi(df, selected_ingredients, kamus)
-    top5 = hasil.head(5)
+    top5 = hasil.head(5).copy()
+    top5["Ingredients_List"] = top5["Ingredients List"] #tambahan
 
     return render_template('index.html', rekomendasi=top5, input_user=selected_ingredients)
+
 
 # Jalankan di Railway
 # Jalankan di Railway
@@ -76,4 +77,3 @@ if __name__ == '__main__':
     import os  # ⬅️
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
-
